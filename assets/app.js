@@ -10,10 +10,14 @@
   try { cart = JSON.parse(localStorage.getItem("lenssepeti-cart") || "[]").filter(function (l) { return findP(l.id); }); } catch (e) { cart = []; }
   function save() { try { localStorage.setItem("lenssepeti-cart", JSON.stringify(cart)); } catch (e) {} }
   function waNumber() { var n = D.site.whatsapp.replace(/\D/g, ""); if (n.charAt(0) === "0") n = "9" + n; return n; }
+  function val(id) { return $(id).value.trim(); }
+  function itemsText() {
+    return cart.length ? cart.map(function (l) { var p = findP(l.id); return "• " + l.qty + " × " + p.n + " " + p.d + " (" + l.opt + ")"; }).join("\n") : "(sepet boş)";
+  }
   function message() {
-    var firma = $("firma").value.trim();
-    return "Merhaba Lenssepeti, sipariş / fiyat teklifi istiyorum.\n" + (firma ? "Firma: " + firma + "\n" : "") + "\n" +
-      (cart.length ? cart.map(function (l) { var p = findP(l.id); return "• " + l.qty + " × " + p.n + " " + p.d + " (" + l.opt + ")"; }).join("\n") : "(sepet boş)");
+    var lines = [["Firma", val("firma")], ["Telefon", val("tel")], ["Adres", val("adres")], ["Not", val("not")]]
+      .filter(function (x) { return x[1]; }).map(function (x) { return x[0] + ": " + x[1]; }).join("\n");
+    return "Merhaba Lenssepeti, sipariş / fiyat teklifi istiyorum.\n" + (lines ? lines + "\n" : "") + "\n" + itemsText();
   }
   function renderCart() {
     $("badge").textContent = cart.reduce(function (s, l) { return s + l.qty; }, 0);
@@ -114,12 +118,42 @@
   $("closeCart").addEventListener("click", function () { openCart(false); });
   $("scrim").addEventListener("click", function () { openCart(false); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") openCart(false); });
-  $("firma").addEventListener("input", renderCart);
-  $("copyMsg").addEventListener("click", function () {
-    var b = $("copyMsg");
-    navigator.clipboard.writeText(message()).then(function () { b.textContent = "Kopyalandı"; setTimeout(function () { b.textContent = "Mesajı kopyala"; }, 2000); },
-      function () { var r = document.createRange(); r.selectNodeContents($("msg")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  ["firma", "tel", "adres", "not"].forEach(function (id) { $(id).addEventListener("input", renderCart); });
+
+  // ---------- E-posta ile sipariş (Web3Forms) ----------
+  var KEY = (D.site.order_key || "").trim();
+  if (!KEY) { $("sendOrder").hidden = true; $("waLink").className = "primary"; }
+  function showErr(t) { $("orderErr").textContent = t; $("orderErr").hidden = !t; }
+  $("orderForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!KEY) return;
+    if (!cart.length) return showErr("Sepetiniz boş. Önce parça ekleyin.");
+    if (!val("firma") || !val("tel")) return showErr("Ad soyad / firma ve telefon alanlarını doldurun.");
+    showErr("");
+    var btn = $("sendOrder"); btn.disabled = true; btn.textContent = "Gönderiliyor…";
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: KEY,
+        subject: "Yeni sipariş: " + val("firma"),
+        from_name: "Lenssepeti sitesi",
+        "Ad soyad / firma": val("firma"),
+        "Telefon": val("tel"),
+        "Adres": val("adres"),
+        "Not": val("not"),
+        "Ürünler": itemsText(),
+        "Sayfa": location.href
+      })
+    }).then(function (r) { return r.json(); }).then(function (res) {
+      if (!res.success) throw new Error(res.message || "");
+      cart = []; save(); renderCart();
+      $("orderForm").hidden = true; $("orderDone").hidden = false;
+    }).catch(function () {
+      showErr("Sipariş gönderilemedi. İnternet bağlantınızı kontrol edip tekrar deneyin ya da WhatsApp ile gönderin.");
+    }).then(function () { btn.disabled = false; btn.textContent = "Siparişi gönder"; });
   });
+  $("newOrder").addEventListener("click", function () { $("orderForm").hidden = false; $("orderDone").hidden = true; });
 
   if (isCatalog) {
     state.q = params.get("q") || "";

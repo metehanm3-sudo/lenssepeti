@@ -120,3 +120,12 @@ footer .wrap { border-top: 1px solid var(--line); padding-block: 24px; display: 
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-size: 14px; z-index: 30; }
 .top .wrap { justify-content: space-between; }
 @media (max-width: 640px) { .search { order: 3; flex-basis: 100%; } }
+.ofields { display: grid; gap: 6px; }
+.ofields label { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 4px; }
+.ghost { display: block; text-align: center; text-decoration: none; color: var(--ink); }
+.err { color: #c2410c; font-size: 13px; margin: 0; }
+.done { padding: 24px 18px; display: grid; gap: 10px; border-top: 1px solid var(--line); }
+.done h3 { font-size: 18px; color: var(--accent); }
+.done p { color: var(--muted); }
+.primary:disabled { opacity: .6; cursor: wait; }
+.dfoot { max-height: 60vh; overflow-y: auto; }

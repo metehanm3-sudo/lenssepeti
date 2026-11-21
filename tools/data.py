@@ -8,6 +8,9 @@ SITE = {
     # Alan adı alınınca burayı değiştirin (sonunda / olmadan)
     "base_url": "https://metehanm3-sudo.github.io/lenssepeti",
     "whatsapp": "0500 000 00 00",  # örnek numara
+    # Siparişlerin e-postanıza gelmesi için web3forms.com'dan aldığınız "Access Key"i tırnakların içine yapıştırın.
+    # Boş bırakılırsa sepette sadece WhatsApp ile sipariş görünür.
+    "order_key": "",
 }
 
 HEADS = {

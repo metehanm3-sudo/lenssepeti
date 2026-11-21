@@ -117,12 +117,26 @@ def page(rel_dir, title, description, body, crumbs=None, search_here=False):
 <aside class="drawer" id="drawer" hidden aria-label="Sepet">
   <div class="dhead"><h2>Sepetiniz</h2><button class="x" type="button" id="closeCart">Kapat</button></div>
   <div class="dlist" id="dlist"></div>
-  <div class="dfoot">
-    <label class="hint" for="firma">Firma / ad soyad</label>
-    <input id="firma" placeholder="ör. Yılmaz Metal" autocomplete="organization">
-    <pre id="msg"></pre>
-    <a class="primary" id="waLink" href="#" target="_blank" rel="noopener">WhatsApp ile gönder</a>
-    <button class="ghost" type="button" id="copyMsg">Mesajı kopyala</button>
+  <form class="dfoot" id="orderForm" novalidate>
+    <div class="ofields">
+      <label for="firma">Ad soyad / firma *</label>
+      <input id="firma" name="firma" placeholder="ör. Yılmaz Metal" autocomplete="organization" required>
+      <label for="tel">Telefon *</label>
+      <input id="tel" name="tel" type="tel" placeholder="05xx xxx xx xx" autocomplete="tel" required>
+      <label for="adres">Teslimat adresi / il</label>
+      <input id="adres" name="adres" placeholder="ör. İkitelli OSB, İstanbul" autocomplete="street-address">
+      <label for="not">Not</label>
+      <input id="not" name="not" placeholder="ör. Kafa modelim BM111, fatura kesilsin">
+    </div>
+    <p class="err" id="orderErr" hidden></p>
+    <button class="primary" type="submit" id="sendOrder">Siparişi gönder</button>
+    <a class="ghost" id="waLink" href="#" target="_blank" rel="noopener">WhatsApp ile gönder</a>
+    <pre id="msg" hidden></pre>
+  </form>
+  <div class="done" id="orderDone" hidden>
+    <h3>Siparişiniz alındı</h3>
+    <p>Fiyat ve kargo bilgisi için en kısa sürede sizi arayacağız.</p>
+    <button class="ghost" type="button" id="newOrder">Yeni sipariş</button>
   </div>
 </aside>
 <div class="toast" id="toast" hidden></div>
