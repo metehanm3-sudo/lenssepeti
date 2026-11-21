@@ -18,3 +18,12 @@ WhatsApp numarası ve alan adı da `tools/data.py` içindeki `SITE` bölümünde
 Depo ayarları → **Pages** → Source: **Deploy from a branch** → Branch: `main` / `(root)` → Save.
 
 Kendi alan adınız için Pages ayarındaki **Custom domain** kutusuna `lenssepeti.com` yazın ve alan adı firmanızın DNS ayarına GitHub'ın verdiği kayıtları ekleyin.
+
+## Hazır e-ticaret altyapısına yükleme
+
+```bash
+python3 tools/export.py
+```
+
+- `exports/shopify-urunler.csv` → Shopify: Ürünler → İçe aktar. Fiyatlar 0 ve ürünler taslak olarak gelir; fiyatı girip yayınlayın.
+- `exports/urun-listesi.csv` → ikas, Ticimax, IdeaSoft vb. Excel'de açın, fiyat ve stok sütunlarını doldurun, platformun toplu ürün yükleme şablonuna kopyalayın.
