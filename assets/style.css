@@ -129,3 +129,4 @@ footer .wrap { border-top: 1px solid var(--line); padding-block: 24px; display: 
 .done p { color: var(--muted); }
 .primary:disabled { opacity: .6; cursor: wait; }
 .dfoot { max-height: 60vh; overflow-y: auto; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }

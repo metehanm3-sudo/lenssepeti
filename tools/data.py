@@ -8,7 +8,10 @@ SITE = {
     # Alan adı alınınca burayı değiştirin (sonunda / olmadan)
     "base_url": "https://metehanm3-sudo.github.io/lenssepeti",
     "whatsapp": "0500 000 00 00",  # örnek numara
-    # Siparişlerin e-postanıza gelmesi için web3forms.com'dan aldığınız "Access Key"i tırnakların içine yapıştırın.
+    # Sipariş sistemi (Google E-Tablo) adresi — siparis/KURULUM.md adımlarıyla alınan "Web uygulaması URL'si".
+    # Doluysa siparişler tabloya düşer ve size e-posta bildirimi gider.
+    "order_url": "",
+    # (Alternatif) Siparişlerin sadece e-postanıza gelmesi için web3forms.com'dan aldığınız "Access Key"i tırnakların içine yapıştırın.
     # Boş bırakılırsa sepette sadece WhatsApp ile sipariş görünür.
     "order_key": "",
 }

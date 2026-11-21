@@ -122,31 +122,36 @@
 
   // ---------- E-posta ile sipariş (Web3Forms) ----------
   var KEY = (D.site.order_key || "").trim();
-  if (!KEY) { $("sendOrder").hidden = true; $("waLink").className = "primary"; }
+  var URL_ = (D.site.order_url || "").trim();
+  if (!KEY && !URL_) { $("sendOrder").hidden = true; $("waLink").className = "primary"; }
+  function sendOrder() {
+    if (URL_) {
+      // text/plain: Google Apps Script'e ön kontrol (preflight) olmadan gönderilir
+      return fetch(URL_, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ firma: val("firma"), tel: val("tel"), adres: val("adres"), not: val("not"), urunler: itemsText(), website: $("website").value })
+      }).then(function (r) { return r.json(); });
+    }
+    return fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        access_key: KEY, subject: "Yeni sipariş: " + val("firma"), from_name: "Lenssepeti sitesi",
+        "Ad soyad / firma": val("firma"), "Telefon": val("tel"), "Adres": val("adres"), "Not": val("not"),
+        "Ürünler": itemsText(), "Sayfa": location.href, botcheck: $("website").value
+      })
+    }).then(function (r) { return r.json(); });
+  }
   function showErr(t) { $("orderErr").textContent = t; $("orderErr").hidden = !t; }
   $("orderForm").addEventListener("submit", function (e) {
     e.preventDefault();
-    if (!KEY) return;
+    if (!KEY && !URL_) return;
     if (!cart.length) return showErr("Sepetiniz boş. Önce parça ekleyin.");
     if (!val("firma") || !val("tel")) return showErr("Ad soyad / firma ve telefon alanlarını doldurun.");
     showErr("");
     var btn = $("sendOrder"); btn.disabled = true; btn.textContent = "Gönderiliyor…";
-    fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({
-        access_key: KEY,
-        subject: "Yeni sipariş: " + val("firma"),
-        from_name: "Lenssepeti sitesi",
-        "Ad soyad / firma": val("firma"),
-        "Telefon": val("tel"),
-        "Adres": val("adres"),
-        "Not": val("not"),
-        "Ürünler": itemsText(),
-        "Sayfa": location.href
-      })
-    }).then(function (r) { return r.json(); }).then(function (res) {
+    sendOrder().then(function (res) {
       if (!res.success) throw new Error(res.message || "");
+      $("orderNo").textContent = res.no ? "Sipariş no: " + res.no : "";
       cart = []; save(); renderCart();
       $("orderForm").hidden = true; $("orderDone").hidden = false;
     }).catch(function () {

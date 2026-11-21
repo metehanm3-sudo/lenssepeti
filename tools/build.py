@@ -128,6 +128,7 @@ def page(rel_dir, title, description, body, crumbs=None, search_here=False):
       <label for="not">Not</label>
       <input id="not" name="not" placeholder="ör. Kafa modelim BM111, fatura kesilsin">
     </div>
+    <input class="hp" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="err" id="orderErr" hidden></p>
     <button class="primary" type="submit" id="sendOrder">Siparişi gönder</button>
     <a class="ghost" id="waLink" href="#" target="_blank" rel="noopener">WhatsApp ile gönder</a>
@@ -135,6 +136,7 @@ def page(rel_dir, title, description, body, crumbs=None, search_here=False):
   </form>
   <div class="done" id="orderDone" hidden>
     <h3>Siparişiniz alındı</h3>
+    <p class="mono" id="orderNo"></p>
     <p>Fiyat ve kargo bilgisi için en kısa sürede sizi arayacağız.</p>
     <button class="ghost" type="button" id="newOrder">Yeni sipariş</button>
   </div>
