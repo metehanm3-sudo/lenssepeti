@@ -82,6 +82,7 @@ def page(rel_dir, title, description, body, crumbs=None, search_here=False):
 <meta property="og:url" content="{E(canonical)}">
 <meta property="og:locale" content="tr_TR">
 <meta name="theme-color" content="#0d7f72">
+<meta name="robots" content="index, follow">
 <link rel="icon" href="{up}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
