@@ -28,7 +28,7 @@ WhatsApp numarası ve alan adı da `tools/data.py` içindeki `SITE` bölümünde
 
 ## Yayınlama (GitHub Pages) — bir kez yapılır
 
-Depo ayarları → **Pages** → Source: **GitHub Actions**. Bundan sonra her kayıtta site otomatik yayınlanır.
+Depo ayarları → **Pages** → Source: **Deploy from a branch** → Branch: `main` / `(root)` → Save. `tools/` içindeki bir dosya değişince **Siteyi güncelle** işlemi sayfaları yeniden üretir, Pages de yayınlar.
 
 Kendi alan adınız için Pages ayarındaki **Custom domain** kutusuna `lenssepeti.com` yazın ve alan adı firmanızın DNS ayarına GitHub'ın verdiği kayıtları ekleyin.
 

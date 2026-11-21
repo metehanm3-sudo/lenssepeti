@@ -1,35 +1,37 @@
-# tools/data.py (veya herhangi bir dosya) değişince siteyi yeniden üretir ve GitHub Pages'e yayınlar.
-name: Siteyi yayınla
+# tools/ klasöründe bir dosya (ör. data.py) değişince sayfaları yeniden üretir ve kaydeder.
+# GitHub Pages ("Deploy from a branch": main) bu kaydı görüp siteyi kendiliğinden yayınlar.
+name: Siteyi güncelle
 
 on:
   push:
     branches: [main]
+    paths: ["tools/**"]
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: true
+  group: site-guncelle
+  cancel-in-progress: false
 
 jobs:
-  yayinla:
+  guncelle:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - name: Sayfaları üret
         run: |
           python3 tools/build.py
           python3 tools/export.py
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Değişiklikleri kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Değişiklik yok."
+          else
+            git commit -m "Site sayfaları güncellendi"
+            git push
+          fi
