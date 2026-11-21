@@ -13,9 +13,22 @@ Fiber lazer kesim kafası yedek parça ve sarf malzemesi sitesi (Raytools, BOCI,
 
 WhatsApp numarası ve alan adı da `tools/data.py` içindeki `SITE` bölümünde.
 
-## Yayınlama (GitHub Pages)
+## Siteyi kendiniz güncellemek (GitHub üzerinden)
 
-Depo ayarları → **Pages** → Source: **Deploy from a branch** → Branch: `main` / `(root)` → Save.
+1. GitHub'da `tools/data.py` dosyasını açın, sağ üstteki **kalem** simgesine basın.
+2. Değişikliği yapın (WhatsApp numarası en üstte, ürünler `PRODUCTS` listesinde).
+3. **Commit changes** düğmesine basın.
+4. 1–2 dakika içinde site kendiliğinden güncellenir. İlerlemeyi depodaki **Actions** sekmesinden görebilirsiniz; yeşil tik = yayında, kırmızı çarpı = dosyada yazım hatası var.
+
+Ürün satırı örneği (virgüllere ve tırnaklara dikkat):
+
+```python
+("r-k7", "raytools", "koruma", "Raytools koruma camı", "D21.5 × 2 mm", ["BM109", "BM111"], PACK, ""),
+```
+
+## Yayınlama (GitHub Pages) — bir kez yapılır
+
+Depo ayarları → **Pages** → Source: **GitHub Actions**. Bundan sonra her kayıtta site otomatik yayınlanır.
 
 Kendi alan adınız için Pages ayarındaki **Custom domain** kutusuna `lenssepeti.com` yazın ve alan adı firmanızın DNS ayarına GitHub'ın verdiği kayıtları ekleyin.
 
