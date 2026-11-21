@@ -257,7 +257,7 @@ def build():
 
     # 404
     write("404.html", page("404.html", "Sayfa bulunamadı | Lenssepeti", "Aradığınız sayfa bulunamadı.",
-                           '<div class="hero"><div class="wrap"><h1>Bu sayfa bulunamadı</h1><p>Adres değişmiş olabilir. <a href="/">Ana sayfadan</a> kafa modelinizi seçin.</p></div></div>'))
+                           f'<div class="hero"><div class="wrap"><h1>Bu sayfa bulunamadı</h1><p>Adres değişmiş olabilir. <a href="{BASE}/">Ana sayfadan</a> kafa modelinizi seçin.</p></div></div>'))
 
     # sitemap + robots
     today = date.today().isoformat()

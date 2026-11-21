@@ -6,7 +6,7 @@
 SITE = {
     "name": "Lenssepeti",
     # Alan adı alınınca burayı değiştirin (sonunda / olmadan)
-    "base_url": "https://lenssepeti.com",
+    "base_url": "https://metehanm3-sudo.github.io/lenssepeti",
     "whatsapp": "0500 000 00 00",  # örnek numara
 }
 
